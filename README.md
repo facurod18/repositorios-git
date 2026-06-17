@@ -9,6 +9,7 @@ I am currently pursuing a master's degree in data science and have an academic b
 | Project | Status | Main Skills | Domain |
 | --- | --- | --- | --- |
 | [Credit Risk & Default Prediction](projects/credit-risk-default/) | In progress | R, EDA, classification, decision trees, model evaluation | Finance / Risk |
+| [Business Regression Analytics](projects/business-regression-analytics/) | In progress | R, linear regression, RMSE, R-squared, model interpretation | Marketing / Consumer Analytics |
 
 ## What This Portfolio Shows
 

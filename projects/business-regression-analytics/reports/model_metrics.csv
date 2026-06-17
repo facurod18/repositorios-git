@@ -1,0 +1,9 @@
+project_case,metric,value
+marketing_sales,test_rmse,1.1512708498227129
+marketing_sales,test_mae,0.959864586244477
+marketing_sales,train_r_squared,0.7992427830393434
+marketing_sales,correlation,0.892865317203059
+consumer_charges,test_rmse,299.999805624098
+consumer_charges,test_mae,239.84282598904343
+consumer_charges,train_r_squared,0.8204864752365004
+consumer_charges,rmse_test_train_ratio,0.7381015826328409
