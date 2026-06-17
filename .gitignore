@@ -1,1 +1,28 @@
 .DS_Store
+
+# Local-only learning material and private datasets
+local-only/
+analítica-de-datos/
+machine-learning/
+**/.DS_Store
+
+# Data files are not committed unless explicitly allowed by the data source
+projects/**/data/raw/
+projects/**/data/interim/
+projects/**/data/processed/
+*.csv
+*.xlsx
+*.xls
+*.rds
+*.RData
+*.sav
+!projects/**/reports/*.csv
+
+# R / Python local artifacts
+.Rhistory
+.RData
+.Rproj.user/
+__pycache__/
+.ipynb_checkpoints/
+.venv/
+venv/
