@@ -1,0 +1,5 @@
+scenario,net_value_usd,threshold
+no_action,-1175000,
+universal_bonus,57800,
+logistic_threshold_0.50,379200,
+logistic_optimal_threshold,480400,0.39
