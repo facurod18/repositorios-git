@@ -1,0 +1,3 @@
+"election_type","rows_used","train_rows","test_rows","train_rmse","test_rmse","rmse_test_train_ratio","r_squared_train","spend_turning_point_usd"
+"Internal elections",2916,1749,1167,856.796101569939,835.191011082508,0.974783859954727,0.0985732996945059,963.88133675507
+"National elections",6021,3612,2409,727.273559171612,698.847815190388,0.960914646734027,0.0974596789413058,6649.5305083536
