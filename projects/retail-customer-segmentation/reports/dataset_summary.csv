@@ -1,0 +1,10 @@
+column,dtype,missing,missing_pct,unique_values
+cliente_id,int64,0,0.0,830
+edad,int64,0,0.0,54
+ingreso_anual_usd,int64,0,0.0,826
+frecuencia_compra_mensual,float64,0,0.0,530
+ticket_promedio_usd,float64,0,0.0,793
+score_digital,int64,0,0.0,92
+antiguedad_meses,int64,0,0.0,87
+canal_preferido,object,0,0.0,3
+region,object,0,0.0,7

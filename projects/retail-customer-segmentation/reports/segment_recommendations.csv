@@ -1,0 +1,6 @@
+segment,business_label,customers,customer_share_pct,avg_monthly_value_usd,avg_digital_score,recommended_action
+0,High-value loyal customers,158,19.04,856.44,73.27,"Prioritize loyalty benefits, premium bundles, and retention campaigns."
+1,Affluent occasional customers,134,16.14,142.23,47.38,Use premium cross-selling and second-purchase incentives to increase frequency.
+2,Established relationship customers,176,21.2,350.88,56.03,Protect retention with tenure-based benefits and relevant category recommendations.
+3,Low-engagement price-sensitive customers,179,21.57,54.51,37.59,"Test reactivation offers, onboarding nudges, and low-friction promotions."
+4,Digital-first frequent shoppers,183,22.05,293.21,87.74,"Use app/web campaigns, personalized recommendations, and automated journeys."
