@@ -1,0 +1,33 @@
+# Data files (large CSV files, typically not stored in git)
+data/*.csv
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment variables
+.env
+.env.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Model artifacts (if saved)
+models/*.pkl
+models/*.joblib
+
+# Temporary files
+*.tmp
+*.temp

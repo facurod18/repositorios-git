@@ -11,6 +11,7 @@ I am currently pursuing a master's degree in data science and have an academic b
 | [Credit Risk & Default Prediction](projects/credit-risk-default/) | In progress | R, EDA, classification, decision trees, model evaluation | Finance / Risk |
 | [Business Regression Analytics](projects/business-regression-analytics/) | In progress | R, linear regression, RMSE, R-squared, model interpretation | Marketing / Consumer Analytics |
 | [Employee Attrition Prediction](projects/employee-attrition-prediction/) | In progress | Python, classification, pipelines, ROC-AUC, feature importance | HR Analytics |
+| [Bank Customer Churn Prediction](projects/bank-churn-prediction/) | In progress | Python, feature engineering, Gradient Boosting, GridSearchCV, AUC-ROC | Banking / Retention |
 | [Uruguay Political Advertising Efficiency Analysis](projects/uruguay-political-ad-efficiency/) | In progress | R, public data, campaign analytics, statistical testing, regression modeling | Political / Marketing Analytics |
 | [Retail Customer Segmentation with K-Means](projects/retail-customer-segmentation/) | In progress | Python, K-Means, clustering, PCA, customer profiling | Retail / CRM Analytics |
 
