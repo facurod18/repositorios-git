@@ -199,11 +199,15 @@ train_index <- sample(seq_len(nrow(credit)), size = floor(0.7 * nrow(credit)))
 train_data <- credit[train_index, ]
 test_data <- credit[-train_index, ]
 
-# ---- 6. Baseline Model: Classification Tree --------------------------------
+# ---- 6. Models --------------------------------------------------------------
 
+# Both models use the same predictors so the comparison is like for like.
+model_formula <- Default ~ IngresosCliente + MontoPrestamo + CreditoDisponible +
+  NumeroDependientes + Educacion + Genero + EstadoCivil
+
+# 6.1 Classification tree: readable decision rules for a credit committee.
 tree_model <- rpart(
-  Default ~ IngresosCliente + MontoPrestamo + CreditoDisponible +
-    NumeroDependientes + Educacion + Genero + EstadoCivil,
+  model_formula,
   data = train_data,
   method = "class"
 )
@@ -219,38 +223,18 @@ png(
 rpart.plot(tree_model, type = 3, extra = 104, fallen.leaves = TRUE)
 dev.off()
 
-# ---- 7. Predictions and Evaluation -----------------------------------------
-
-test_probabilities <- predict(tree_model, newdata = test_data, type = "prob")
-
-evaluation_data <- test_data %>%
-  mutate(
-    predicted_probability = test_probabilities[, "Si"],
-    predicted_class = factor(
-      if_else(predicted_probability >= 0.5, "Si", "No"),
-      levels = c("No", "Si")
-    )
-  )
-
-confusion_matrix <- table(
-  Actual = evaluation_data$Default,
-  Predicted = evaluation_data$predicted_class
+# 6.2 Logistic regression: standard scoring baseline in credit risk, and the
+# reference every tree-based model should be required to beat.
+logistic_model <- glm(
+  model_formula,
+  data = train_data,
+  family = binomial(link = "logit")
 )
 
-cat("\nConfusion matrix:\n")
-print(confusion_matrix)
+cat("\nLogistic regression coefficients (odds ratios):\n")
+print(round(exp(coef(logistic_model)), 3))
 
-tn <- confusion_matrix["No", "No"]
-fp <- confusion_matrix["No", "Si"]
-fn <- confusion_matrix["Si", "No"]
-tp <- confusion_matrix["Si", "Si"]
-
-accuracy <- (tp + tn) / sum(confusion_matrix)
-error_rate <- 1 - accuracy
-sensitivity <- tp / (tp + fn)
-specificity <- tn / (tn + fp)
-precision <- tp / (tp + fp)
-f1_score <- 2 * precision * sensitivity / (precision + sensitivity)
+# ---- 7. Predictions and Evaluation -----------------------------------------
 
 roc_auc_binary <- function(actual, score, positive = "Si") {
   actual_positive <- actual == positive
@@ -266,19 +250,152 @@ roc_auc_binary <- function(actual, score, positive = "Si") {
     (n_positive * n_negative)
 }
 
-auc <- roc_auc_binary(evaluation_data$Default, evaluation_data$predicted_probability)
+# Precision and recall at every distinct score threshold. Average precision is
+# the area under that curve, computed as the recall-weighted mean of precision.
+precision_recall_curve <- function(actual, score, positive = "Si") {
+  actual_positive <- actual == positive
+  ordering <- order(score, decreasing = TRUE)
+  labels <- actual_positive[ordering]
 
-model_metrics <- tibble::tibble(
-  metric = c("accuracy", "error_rate", "sensitivity", "specificity", "precision", "f1_score", "roc_auc"),
-  value = c(accuracy, error_rate, sensitivity, specificity, precision, f1_score, auc)
+  tp <- cumsum(labels)
+  fp <- cumsum(!labels)
+  precision <- tp / (tp + fp)
+  recall <- tp / sum(actual_positive)
+
+  # Keep the last row of each tied score block so the curve is single valued.
+  keep <- c(diff(score[ordering]) != 0, TRUE)
+
+  tibble::tibble(
+    threshold = score[ordering][keep],
+    precision = precision[keep],
+    recall = recall[keep]
+  )
+}
+
+average_precision <- function(pr) {
+  sum(diff(c(0, pr$recall)) * pr$precision)
+}
+
+classification_metrics <- function(actual, score, threshold = 0.5, positive = "Si") {
+  predicted <- factor(
+    if_else(score >= threshold, "Si", "No"),
+    levels = c("No", "Si")
+  )
+
+  confusion_matrix <- table(Actual = actual, Predicted = predicted)
+
+  tn <- confusion_matrix["No", "No"]
+  fp <- confusion_matrix["No", "Si"]
+  fn <- confusion_matrix["Si", "No"]
+  tp <- confusion_matrix["Si", "Si"]
+
+  accuracy <- (tp + tn) / sum(confusion_matrix)
+  sensitivity <- tp / (tp + fn)
+  specificity <- tn / (tn + fp)
+  precision <- tp / (tp + fp)
+  f1_score <- 2 * precision * sensitivity / (precision + sensitivity)
+
+  list(
+    confusion_matrix = confusion_matrix,
+    metrics = c(
+      accuracy = accuracy,
+      error_rate = 1 - accuracy,
+      sensitivity = sensitivity,
+      specificity = specificity,
+      precision = precision,
+      f1_score = f1_score,
+      roc_auc = roc_auc_binary(actual, score, positive),
+      average_precision = average_precision(precision_recall_curve(actual, score, positive))
+    )
+  )
+}
+
+model_scores <- list(
+  `Classification tree` = predict(tree_model, newdata = test_data, type = "prob")[, "Si"],
+  `Logistic regression` = predict(logistic_model, newdata = test_data, type = "response")
+)
+
+model_metrics <- bind_rows(lapply(names(model_scores), function(model_name) {
+  evaluation <- classification_metrics(test_data$Default, model_scores[[model_name]])
+
+  cat("\nConfusion matrix -", model_name, "\n")
+  print(evaluation$confusion_matrix)
+
+  tibble::tibble(
+    model = model_name,
+    metric = names(evaluation$metrics),
+    value = as.numeric(evaluation$metrics)
+  )
+}))
+
+metric_comparison <- tibble::tibble(
+  metric = names(classification_metrics(test_data$Default, model_scores[[1]])$metrics),
+  tree = model_metrics$value[model_metrics$model == "Classification tree"],
+  logistic = model_metrics$value[model_metrics$model == "Logistic regression"]
 )
 
 cat("\nModel metrics on test set:\n")
-print(model_metrics)
+print(metric_comparison, n = Inf)
 
 write_csv(
   model_metrics,
   file.path(project_dir, "reports/model_metrics.csv")
+)
+
+# ---- 7.1 Precision-Recall Curve ---------------------------------------------
+
+# The classes are imbalanced, so the PR curve describes performance on the
+# minority class (defaults) more faithfully than a ROC curve does.
+pr_data <- bind_rows(lapply(names(model_scores), function(model_name) {
+  precision_recall_curve(test_data$Default, model_scores[[model_name]]) %>%
+    mutate(model = model_name)
+}))
+
+default_rate <- mean(test_data$Default == "Si")
+
+p_pr <- ggplot(pr_data, aes(x = recall, y = precision, color = model)) +
+  geom_step(direction = "vh", linewidth = 0.9) +
+  geom_hline(
+    yintercept = default_rate,
+    linetype = "dashed",
+    color = "grey40"
+  ) +
+  annotate(
+    "text",
+    x = 0.02,
+    y = default_rate + 0.03,
+    label = sprintf("Random classifier (%.1f%% default rate)", 100 * default_rate),
+    hjust = 0,
+    size = 3.2,
+    color = "grey30"
+  ) +
+  scale_color_manual(values = c(
+    "Classification tree" = "#E76F51",
+    "Logistic regression" = "#2D9CDB"
+  )) +
+  scale_x_continuous(labels = scales::percent, limits = c(0, 1)) +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1)) +
+  labs(
+    title = "Precision-Recall Curve on the Test Set",
+    subtitle = "Higher curves identify more defaulters at the same false alarm cost",
+    x = "Recall (share of defaulters caught)",
+    y = "Precision (share of flagged customers who truly default)",
+    color = NULL
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    plot.title = element_text(face = "bold"),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank()
+  )
+
+ggsave(
+  filename = file.path(figures_dir, "precision_recall_curve.png"),
+  plot = p_pr,
+  width = 8,
+  height = 5,
+  dpi = 300,
+  bg = "white"
 )
 
 # ---- 8. Interpretation Notes ------------------------------------------------
@@ -288,8 +405,6 @@ cat("- Sensitivity shows how well the model identifies customers who default.\n"
 cat("- Specificity shows how well the model identifies customers who do not default.\n")
 cat("- In credit risk, false negatives can be costly because risky customers are missed.\n")
 cat("- False positives can also be costly because potentially good customers may be rejected.\n")
-
-cat("\nNext steps:\n")
-cat("- Add logistic regression as a baseline model.\n")
-cat("- Compare the tree with random forest.\n")
-cat("- Add a business-facing summary of tradeoffs and recommendations.\n")
+cat("- Accuracy is inflated by the majority class here, so it is not the deciding metric.\n")
+cat("- Average precision summarises the precision-recall curve and is the fairest\n")
+cat("  single number when the positive class is the minority.\n")

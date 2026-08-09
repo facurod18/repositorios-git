@@ -8,7 +8,7 @@ I am currently pursuing a master's degree in data science and have an academic b
 
 | Project | Status | Main Skills | Domain |
 | --- | --- | --- | --- |
-| [Credit Risk & Default Prediction](projects/credit-risk-default/) | In progress | R, EDA, classification, decision trees, model evaluation | Finance / Risk |
+| [Credit Risk & Default Prediction](projects/credit-risk-default/) | Complete | R, EDA, model comparison, logistic regression, precision-recall, imbalanced data | Finance / Risk |
 | [Business Regression Analytics](projects/business-regression-analytics/) | Complete | R, linear regression, RMSE, R-squared, model interpretation | Marketing / Consumer Analytics |
 | [Employee Attrition Prediction](projects/employee-attrition-prediction/) | Complete | Python, classification, pipelines, ROC-AUC, feature importance | HR Analytics |
 | [Bank Customer Churn Prediction](projects/bank-churn-prediction/) | Complete | Python, feature engineering, Gradient Boosting, GridSearchCV, AUC-ROC | Banking / Retention |

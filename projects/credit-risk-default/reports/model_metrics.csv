@@ -1,8 +1,17 @@
-metric,value
-accuracy,0.9412452499269219
-error_rate,0.058754750073078066
-sensitivity,0.6971490048413125
-specificity,0.9952403617325083
-precision,0.9700598802395209
-f1_score,0.8112676056338027
-roc_auc,0.8947981685505941
+model,metric,value
+Classification tree,accuracy,0.9412452499269219
+Classification tree,error_rate,0.058754750073078066
+Classification tree,sensitivity,0.6971490048413125
+Classification tree,specificity,0.9952403617325083
+Classification tree,precision,0.9700598802395209
+Classification tree,f1_score,0.8112676056338027
+Classification tree,roc_auc,0.8947981685505941
+Classification tree,average_precision,0.7973118590350012
+Logistic regression,accuracy,0.9784663353795187
+Logistic regression,error_rate,0.02153366462048134
+Logistic regression,sensitivity,0.9015599784830554
+Logistic regression,specificity,0.995478343645883
+Logistic regression,precision,0.9778296382730455
+Logistic regression,f1_score,0.9381472152253009
+Logistic regression,roc_auc,0.977079743015378
+Logistic regression,average_precision,0.9683916267890953
