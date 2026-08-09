@@ -9,11 +9,11 @@ I am currently pursuing a master's degree in data science and have an academic b
 | Project | Status | Main Skills | Domain |
 | --- | --- | --- | --- |
 | [Credit Risk & Default Prediction](projects/credit-risk-default/) | In progress | R, EDA, classification, decision trees, model evaluation | Finance / Risk |
-| [Business Regression Analytics](projects/business-regression-analytics/) | In progress | R, linear regression, RMSE, R-squared, model interpretation | Marketing / Consumer Analytics |
-| [Employee Attrition Prediction](projects/employee-attrition-prediction/) | In progress | Python, classification, pipelines, ROC-AUC, feature importance | HR Analytics |
-| [Bank Customer Churn Prediction](projects/bank-churn-prediction/) | In progress | Python, feature engineering, Gradient Boosting, GridSearchCV, AUC-ROC | Banking / Retention |
-| [Uruguay Political Advertising Efficiency Analysis](projects/uruguay-political-ad-efficiency/) | In progress | R, public data, campaign analytics, statistical testing, regression modeling | Political / Marketing Analytics |
-| [Retail Customer Segmentation with K-Means](projects/retail-customer-segmentation/) | In progress | Python, K-Means, clustering, PCA, customer profiling | Retail / CRM Analytics |
+| [Business Regression Analytics](projects/business-regression-analytics/) | Complete | R, linear regression, RMSE, R-squared, model interpretation | Marketing / Consumer Analytics |
+| [Employee Attrition Prediction](projects/employee-attrition-prediction/) | Complete | Python, classification, pipelines, ROC-AUC, feature importance | HR Analytics |
+| [Bank Customer Churn Prediction](projects/bank-churn-prediction/) | Complete | Python, feature engineering, Gradient Boosting, GridSearchCV, AUC-ROC | Banking / Retention |
+| [Uruguay Political Advertising Efficiency Analysis](projects/uruguay-political-ad-efficiency/) | Complete | R, public data, campaign analytics, statistical testing, regression modeling | Political / Marketing Analytics |
+| [Retail Customer Segmentation with K-Means](projects/retail-customer-segmentation/) | Complete | Python, K-Means, clustering, PCA, customer profiling | Retail / CRM Analytics |
 | [COMPAS Recidivism Prediction & Fairness Audit](https://github.com/facurod18/compas-ml-ucu) | Complete | Python, scikit-learn, threshold moving, cost analysis, error-rate audit by group | Criminal Justice / Algorithmic Fairness |
 
 ## What This Portfolio Shows
