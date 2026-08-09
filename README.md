@@ -14,6 +14,7 @@ I am currently pursuing a master's degree in data science and have an academic b
 | [Bank Customer Churn Prediction](projects/bank-churn-prediction/) | In progress | Python, feature engineering, Gradient Boosting, GridSearchCV, AUC-ROC | Banking / Retention |
 | [Uruguay Political Advertising Efficiency Analysis](projects/uruguay-political-ad-efficiency/) | In progress | R, public data, campaign analytics, statistical testing, regression modeling | Political / Marketing Analytics |
 | [Retail Customer Segmentation with K-Means](projects/retail-customer-segmentation/) | In progress | Python, K-Means, clustering, PCA, customer profiling | Retail / CRM Analytics |
+| [COMPAS Recidivism Prediction & Fairness Audit](https://github.com/facurod18/compas-ml-ucu) | Complete | Python, scikit-learn, threshold moving, cost analysis, error-rate audit by group | Criminal Justice / Algorithmic Fairness |
 
 ## What This Portfolio Shows
 
